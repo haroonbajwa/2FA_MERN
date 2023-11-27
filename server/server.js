@@ -57,6 +57,22 @@ app.post("/add-user", async (req, res) => {
     res.status(500).json({ success: false, message: "Error adding user" });
   }
 });
+// get all users
+app.get("/all-users", async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    if (allUsers.length <= 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No user found." });
+    }
+
+    res.json({ allUsers: allUsers });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Error getting users" });
+  }
+});
 
 app.post("/generate-secret", async (req, res) => {
   try {
